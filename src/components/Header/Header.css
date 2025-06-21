@@ -1,0 +1,22 @@
+.header {
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 1rem 1rem;
+  display: flex;
+  align-items: center;
+  height: 4rem;
+  max-width: 65rem;
+  margin: 0 auto;
+}
+
+.logo {
+  height: 50px;
+}
+
+@media screen and (max-width: 767px) {
+  .header {
+    width: -webkit-fill-available;
+    position: fixed;
+    margin-bottom:96px;
+  }
+}

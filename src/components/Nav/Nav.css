@@ -1,0 +1,52 @@
+nav {
+  display: flex;
+}
+
+ul {
+  display: flex;
+}
+
+ul li {
+  list-style-type: none;
+  margin-left: 1rem;
+  color: inherit;
+}
+
+ul li a {
+  margin-left: 1rem;
+  color: #333333;
+  text-decoration: none;
+  font-family: Karla;
+  font-size: 1.1em;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  .menu-list {
+    position: fixed;
+    top: 4rem;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 1rem;
+    display: none;
+  }
+
+  .nav.open .menu-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .menu-toggle {
+    display: block;
+    cursor: pointer;
+  }
+
+  ul li a {
+    color: #495e57;
+    font-size: 1.1em;
+  }
+}
