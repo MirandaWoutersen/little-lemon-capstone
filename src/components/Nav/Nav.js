@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Nav.css";
 import MenuIcon from "../../assets/hamburger.svg";
 
@@ -24,7 +25,7 @@ const Nav = () => {
             <ul className={`menu-list ${isMenuOpen ? "open" : ""}`}>
             {menuItems.map(item => (
                 <li key={item.id}>
-                    <a href={item.link} className="link">{item.label}</a>
+                  <Link className="menu-link" to={item.link}>{item.label}</Link>
                 </li>
             ))}
             </ul>
