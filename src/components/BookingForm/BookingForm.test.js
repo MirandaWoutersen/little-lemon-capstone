@@ -142,3 +142,133 @@ test('Should update available booking time options when changing booking date - 
     const updatedOptions = screen.getAllByTestId("booking-time-option").map(opt => opt.textContent);
     expect(updatedOptions).toEqual(newTimesAfterDateChange);
   });
+
+describe('BookingForm check all input field validation attributes', () => {
+  const availableTimes = ['18:00', '19:00', '20:00'];
+
+  const defaultProps = {
+    onFormSubmit: jest.fn(),
+    isFormSubmitted: false,
+    availableTimes,
+    dispatchOnDateChange: jest.fn(),
+  };
+
+  beforeEach(() => {
+    render(<BookingForm {...defaultProps} />);
+  });
+
+  test('Date input has correct attributes', () => {
+    const dateInput = screen.getByTestId('date');
+    expect(dateInput).toHaveAttribute('type', 'date');
+    expect(dateInput).toBeRequired();
+    expect(dateInput).toHaveAttribute('name', 'date');
+  });
+
+  test('Time select has correct attributes', () => {
+    const timeSelect = screen.getByTestId('time');
+    expect(timeSelect.tagName.toLowerCase()).toBe('select');
+    expect(timeSelect).toBeRequired();
+    expect(timeSelect).toHaveAttribute('name', 'time');
+    expect(screen.getAllByTestId('booking-time-option').length).toBe(availableTimes.length);
+  });
+
+  test('People input has correct attributes', () => {
+    const peopleInput = screen.getByTestId('people');
+    expect(peopleInput).toHaveAttribute('type', 'number');
+    expect(peopleInput).toHaveAttribute('min', '1');
+    expect(peopleInput).toHaveAttribute('max', '10');
+    expect(peopleInput).toBeRequired();
+    expect(peopleInput).toHaveAttribute('name', 'people');
+  });
+
+  test('Occasion select has correct attributes', () => {
+    const occasionSelect = screen.getByTestId('occasion');
+    expect(occasionSelect.tagName.toLowerCase()).toBe('select');
+    expect(occasionSelect).toBeRequired();
+    expect(occasionSelect).toHaveAttribute('name', 'occasion');
+  });
+});
+
+describe('BookingForm field validation states', () => {
+  const availableTimes = ['18:00', '19:00', '20:00'];
+
+  const setup = () => {
+    const utils = render(
+      <BookingForm
+        onFormSubmit={jest.fn()}
+        isFormSubmitted={false}
+        availableTimes={availableTimes}
+        dispatchOnDateChange={jest.fn()}
+      />
+    );
+    const dateInput = screen.getByTestId('date');
+    const timeSelect = screen.getByTestId('time');
+    const peopleInput = screen.getByTestId('people');
+    const occasionSelect = screen.getByTestId('occasion');
+    const submitButton = screen.getByRole('button');
+
+    return {
+      ...utils,
+      dateInput,
+      timeSelect,
+      peopleInput,
+      occasionSelect,
+      submitButton,
+    };
+  };
+
+  test('Valid form state enables submit button', () => {
+    const {
+      dateInput,
+      timeSelect,
+      peopleInput,
+      occasionSelect,
+      submitButton,
+    } = setup();
+
+    fireEvent.change(dateInput, { target: { value: '2025-06-24' } });
+    fireEvent.change(timeSelect, { target: { value: '19:00' } });
+    fireEvent.change(peopleInput, { target: { value: '4' } });
+    fireEvent.change(occasionSelect, { target: { value: 'anniversary' } });
+
+    expect(submitButton).not.toBeDisabled();
+  });
+
+  test('Invalid guests number disables submit (less than min)', () => {
+    const { peopleInput, submitButton } = setup();
+    fireEvent.change(peopleInput, { target: { value: '0' } });
+
+    expect(parseInt(peopleInput.value, 10)).toBeLessThan(1);
+    expect(submitButton).toBeDisabled();
+  });
+
+  test('Invalid guests number disables submit (more than max)', () => {
+    const { peopleInput, submitButton } = setup();
+    fireEvent.change(peopleInput, { target: { value: '11' } });
+
+    expect(parseInt(peopleInput.value, 10)).toBeGreaterThan(10);
+    expect(submitButton).toBeDisabled();
+  });
+
+  test('Empty date disables submit', () => {
+    const { dateInput, submitButton } = setup();
+    fireEvent.change(dateInput, { target: { value: '' } });
+
+    expect(dateInput.value).toBe('');
+    expect(submitButton).toBeDisabled();
+  });
+
+  test('Invalid time disables submit', () => {
+    const { timeSelect, submitButton } = setup();
+    fireEvent.change(timeSelect, { target: { value: 'invalid' } });
+
+    expect(submitButton).toBeDisabled();
+  });
+
+  test('Invalid occasion disables submit', () => {
+    const { occasionSelect, submitButton } = setup();
+    fireEvent.change(occasionSelect, { target: { value: 'invalid' } });
+
+    expect(submitButton).toBeDisabled();
+  });
+});

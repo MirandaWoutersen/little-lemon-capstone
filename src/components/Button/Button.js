@@ -1,7 +1,7 @@
 import React from "react";
 import "./Button.css";
 
-const Button = ({ title, onClick, type }) => {
+const Button = ({ title, onClick, type, disabled = false }) => {
   const handleClick = (e) => {
     if (type !== 'submit') {
       e.preventDefault();
@@ -17,6 +17,7 @@ const Button = ({ title, onClick, type }) => {
       type={type}
       className="button"
       onClick={handleClick}
+      disabled={disabled}
     >
       {title}
     </button>

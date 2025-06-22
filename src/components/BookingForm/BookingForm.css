@@ -39,5 +39,12 @@ select:focus {
 }
 
 .error {
-  border: 1px solid red !important;
+  border: 1px solid #ff6b6b !important;
+}
+
+.error-message {
+  margin-top: 0;
+  text-align: right;
+  padding-right: 1rem;
+  color: #ff6b6b;
 }
