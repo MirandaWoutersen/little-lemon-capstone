@@ -1,0 +1,15 @@
+.confirmed-booking {
+    padding: 40px;
+    text-align: center;
+}
+
+.confirmed-booking-description {
+  color: #495e57;
+}
+
+.confirmed-booking-title {
+  color: #495e57;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+}
