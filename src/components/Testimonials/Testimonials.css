@@ -29,10 +29,13 @@
   font-size: 64px;
   font-weight: 500;
   color: #ffffff;
-  line-height: 10px;
 }
 
 @media screen and (max-width: 767px) {
+  .testimonial-title {
+    text-align: center;
+  }
+
   .testimonials-list {
     flex-direction: column;
     align-items: center;

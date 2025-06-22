@@ -11,9 +11,6 @@ const Reservations = () => {
   const submitForm = (e, formData) => {
     e.preventDefault();
     setIsFormSubmitted(true);
-    // const areAllFieldsFilled = Object.values(formValues).every(
-    //   (value) => value
-    // );
     const response = submitAPI(formData);
     if (response) navigate("/confirmed-booking");
   };
